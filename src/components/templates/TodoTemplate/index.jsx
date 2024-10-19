@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './index.css';
 import { INITIAL_TODO_LIST } from '../../../consts';
+import { InputForm } from '../../atoms/InputForm';
+import { List } from '../../organisms/List';
 
 export const TodoTemplate = () => {
   const [todoList, setTodoList] = useState(INITIAL_TODO_LIST);
@@ -32,7 +34,7 @@ export const TodoTemplate = () => {
 
   const showTodoList = handleSearchTodoList();
 
-  const handleDeleteClick = (id) => {
+  const handleDeleteTodo = (id) => {
     const newTodoList = todoList.filter((todo) => id !== todo.id);
     setTodoList(newTodoList);
   };
@@ -43,8 +45,7 @@ export const TodoTemplate = () => {
         <h1 className="title">Todo List</h1>
         <section className="common">
           <h2 className="subtitle">ADD TODO</h2>
-          <input
-            type="text"
+          <InputForm
             className="addInput"
             placeholder="New Todo"
             value={addInputValue}
@@ -53,8 +54,7 @@ export const TodoTemplate = () => {
           />
         </section>
         <section className="common">
-          <input
-            type="text"
+          <InputForm
             className="searchInput"
             placeholder="Search Keyword"
             value={searchInputValue}
@@ -62,21 +62,7 @@ export const TodoTemplate = () => {
           />
         </section>
         <section className="common">
-          {showTodoList.length > 0 && (
-            <ul className="list">
-              {showTodoList.map((todo) => (
-                <li class="todo" key={todo.id}>
-                  <span class="task">{todo.title}</span>
-                  <div
-                    class="trash_wrapper"
-                    onClick={() => handleDeleteClick(todo.id)}
-                  >
-                    <div class="trash"></div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          )}
+          <List todoList={showTodoList} handleDeleteTodo={handleDeleteTodo} />
         </section>
       </div>
     </>
